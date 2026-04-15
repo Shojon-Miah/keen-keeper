@@ -6,7 +6,7 @@
     "email": "david.kim@gmail.com",
     "days_since_contact": 62,
     "status": "almost due",
-    "tags": ["work", "college"],
+    "tags": ["work"],
     "bio": "Met at university. We work in the same industry now. Love discussing tech trends over coffee.",
     "goal": 30,
     "next_due_date": "2026-04-20"
@@ -54,7 +54,7 @@
     "email": "sarah.johnson@gmail.com",
     "days_since_contact": 5,
     "status": "on-track",
-    "tags": ["close friend", "college"],
+    "tags": ["hobby", "travel"],
     "bio": "Best friend since high school. We talk almost every week and support each other through everything.",
     "goal": 7,
     "next_due_date": "2026-04-18"
@@ -66,7 +66,7 @@
     "email": "michael.chen@gmail.com",
     "days_since_contact": 10,
     "status": "on-track",
-    "tags": ["work", "mentor"],
+    "tags": ["work"],
     "bio": "My professional mentor who guided me through career transitions. Incredibly wise and generous.",
     "goal": 14,
     "next_due_date": "2026-04-22"
@@ -78,7 +78,7 @@
     "email": "priya.sharma@gmail.com",
     "days_since_contact": 18,
     "status": "almost due",
-    "tags": ["college", "close friend"],
+    "tags": ["work"],
     "bio": "Roommate from university days. We shared so many late night study sessions and adventures.",
     "goal": 21,
     "next_due_date": "2026-04-17"
@@ -102,7 +102,7 @@
     "email": "aisha.patel@gmail.com",
     "days_since_contact": 8,
     "status": "on-track",
-    "tags": ["neighbor", "family friend"],
+    "tags": ["work"],
     "bio": "Our families have been close for years. She is like a sister and always there when I need support.",
     "goal": 14,
     "next_due_date": "2026-04-20"
