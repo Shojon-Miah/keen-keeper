@@ -1,7 +1,7 @@
-export default function Home() {
+export default function HomePage() {
   return (
-    <main>
-      <h1>KeenKeeper</h1>
-    </main>
+    <div>
+      <h1>Home Page</h1>
+    </div>
   );
 }
