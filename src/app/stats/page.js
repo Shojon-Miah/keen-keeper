@@ -1,6 +1,4 @@
-// src/app/stats/page.js
 "use client";
-
 export default function StatsPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
