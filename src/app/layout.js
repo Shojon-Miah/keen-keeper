@@ -1,5 +1,6 @@
 import "./globals.css";
 import Navbar from "@/components/shared/Navbar";
+import Footer from "@/components/shared/Footer";
 
 export const metadata = {
   title: "KeenKeeper — Keep Your Friendships Alive",
@@ -12,7 +13,9 @@ export default function RootLayout({ children }) {
       <body>
         <Navbar />
         <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );
 }
+
