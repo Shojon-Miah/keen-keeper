@@ -1,11 +1,22 @@
-import timelineData from "@/data/friends.json";
+import timelineData from "@/data/timeline.json";
 import { LuPhone, LuMessageSquare, LuVideo } from "react-icons/lu";
 
-const typeIcons = {
-  Call: <LuPhone size={20} className="text-[#101727]" />,
-  Text: <LuMessageSquare size={20} className="text-[#101727]" />,
-  Video: <LuVideo size={20} className="text-[#101727]" />,
-};
+function getIcon(type) {
+  if (type === "Call") return <LuPhone size={20} className="text-[#101727]" />;
+  if (type === "Text") return <LuMessageSquare size={20} className="text-[#101727]" />;
+  if (type === "Video") return <LuVideo size={20} className="text-[#101727]" />;
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return "No date";
+  const [year, month, day] = dateStr.split("-").map(Number);
+  const date = new Date(year, month - 1, day);
+  return date.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
 
 export default function TimelinePage() {
   return (
@@ -34,7 +45,7 @@ export default function TimelinePage() {
             >
               {/* Icon */}
               <div className="w-10 h-10 flex items-center justify-center">
-                {typeIcons[entry.type]}
+                {getIcon(entry.type)}
               </div>
 
               {/* Content */}
@@ -44,11 +55,7 @@ export default function TimelinePage() {
                   <span className="text-[#4b5563]">with {entry.friendName}</span>
                 </p>
                 <p className="text-xs text-[#4b5563] mt-0.5">
-                  {new Date(entry.date).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                  {formatDate(entry.date)}
                 </p>
               </div>
             </div>

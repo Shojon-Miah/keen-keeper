@@ -1,0 +1,13 @@
+[
+  { "id": 1, "type": "Call", "friendName": "David Kim", "date": "2026-04-10" },
+  { "id": 2, "type": "Text", "friendName": "Emma Wilson", "date": "2026-04-09" },
+  { "id": 3, "type": "Video", "friendName": "Lisa Nakamura", "date": "2026-04-08" },
+  { "id": 4, "type": "Call", "friendName": "James Wright", "date": "2026-04-07" },
+  { "id": 5, "type": "Text", "friendName": "Sarah Johnson", "date": "2026-04-06" },
+  { "id": 6, "type": "Video", "friendName": "Michael Chen", "date": "2026-04-05" },
+  { "id": 7, "type": "Call", "friendName": "Priya Sharma", "date": "2026-04-04" },
+  { "id": 8, "type": "Text", "friendName": "Carlos Rivera", "date": "2026-04-03" },
+  { "id": 9, "type": "Video", "friendName": "Aisha Patel", "date": "2026-04-02" },
+  { "id": 10, "type": "Call", "friendName": "Tom Baker", "date": "2026-04-01" }
+]
+
