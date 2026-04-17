@@ -13,7 +13,7 @@ export default function FriendsSection() {
     const timer = setTimeout(() => {
       setFriends(friendsData);
       setLoading(false);
-    }, 100);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
