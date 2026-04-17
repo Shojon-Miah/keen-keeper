@@ -1,7 +1,25 @@
-import friends from "@/data/friends.json";
+"use client";
+
+import { useState, useEffect } from "react";
 import FriendCard from "@/components/ui/FriendCard";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import friendsData from "@/data/friends.json";
 
 export default function FriendsSection() {
+  const [friends, setFriends] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFriends(friendsData);
+      setLoading(false);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) return <LoadingSpinner />;
+
   return (
     <section className="bg-[#f0f4f3] py-12 px-6">
       <div className="max-w-7xl mx-auto">
@@ -22,4 +40,3 @@ export default function FriendsSection() {
     </section>
   );
 }
-

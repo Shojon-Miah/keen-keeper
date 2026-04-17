@@ -1,13 +1,34 @@
-import friends from "@/data/friends.json";
+"use client";
+import { use } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { LuAlarmClock } from "react-icons/lu";
+import { LuAlarmClock, LuPhone, LuMessageSquare, LuVideo } from "react-icons/lu";
 import { MdOutlineArchive } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { LuPhone, LuMessageSquare, LuVideo } from "react-icons/lu";
+import { addTimelineEntry, getTimeline } from "@/utils/storage";
+import friendsData from "@/data/friends.json";
 
-export default async function FriendDetailPage({ params }) {
-  const { id } = await params;
-  const friend = friends.find((f) => f.id === parseInt(id));
+export default function FriendDetailPage({ params }) {
+  const { id } = use(params);
+  const friend = friendsData.find((f) => f.id === parseInt(id));
+
+  const [toast, setToast] = useState(null);
+
+  function showToast(message) {
+    setToast(message);
+    setTimeout(() => setToast(null), 3000);
+  }
+
+  function handleCheckIn(type) {
+    const entry = {
+      id: Date.now(),
+      type,
+      friendName: friend.name,
+      date: new Date().toISOString().split("T")[0],
+    };
+    addTimelineEntry(entry);
+    showToast(`${type} with ${friend.name} logged!`);
+  }
 
   if (!friend) {
     return (
@@ -31,13 +52,21 @@ export default async function FriendDetailPage({ params }) {
 
   return (
     <div className="min-h-screen bg-[#f0f4f3] py-10 px-6">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-4">
+
+      {/* Toast Notification */}
+      {toast && (
+        <div className="fixed top-6 right-6 z-50 bg-[#244d3f] text-white px-6 py-3 rounded-xl shadow-lg text-sm font-medium transition-all">
+          ✅ {toast}
+        </div>
+      )}
+
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6">
 
         {/* ===== Left Column ===== */}
         <div className="flex flex-col gap-4">
 
           {/* Friend Info Card */}
-          <div className="bg-white rounded-xl border border-gray-200 p-3 flex flex-col items-center text-center">
+          <div className="bg-white rounded-xl border border-gray-200 p-4 flex flex-col items-center text-center">
             <div className="w-20 h-20 rounded-full overflow-hidden mb-4">
               <Image
                 src={friend.picture}
@@ -47,7 +76,6 @@ export default async function FriendDetailPage({ params }) {
                 className="object-cover w-full h-full"
               />
             </div>
-
             <h2 className="text-lg font-bold text-[#101727] mb-2">{friend.name}</h2>
             <span className={`text-xs px-3 py-1 rounded-full font-medium mb-2 ${statusStyles[friend.status]}`}>
               {statusLabels[friend.status]}
@@ -56,7 +84,7 @@ export default async function FriendDetailPage({ params }) {
               {friend.tags[0]}
             </span>
             <p className="text-sm text-[#4b5563] italic mb-1">{`"${friend.bio}"`}</p>
-            <p className="text-sm text-[#4b5563]">Preferred: email</p>
+            <p className="text-sm text-[#4b5563]">{friend.email}</p>
           </div>
 
           {/* Action Buttons */}
@@ -78,31 +106,29 @@ export default async function FriendDetailPage({ params }) {
         </div>
 
         {/* ===== Right Column ===== */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-6">
 
-          {/* Stats Cards - 3 column grid */}
+          {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-white rounded-xl border border-gray-200 p-4 text-center">
-              <p className="text-2xl font-semibold text-[#101727] mb-2">{friend.days_since_contact}</p>
+              <p className="text-3xl font-semibold text-[#101727] mb-2">{friend.days_since_contact}</p>
               <p className="text-sm text-[#4b5563]">Days Since Contact</p>
             </div>
-
             <div className="bg-white rounded-xl border border-gray-200 p-4 text-center">
-              <p className="text-2xl font-semibold text-[#101727] mb-2">{friend.goal}</p>
+              <p className="text-3xl font-semibold text-[#101727] mb-2">{friend.goal}</p>
               <p className="text-sm text-[#4b5563]">Goal (Days)</p>
             </div>
-
             <div className="bg-white rounded-xl border border-gray-200 p-4 text-center">
-              <p className="text-2xl font-semibold text-[#244d3f] mb-2">
-                {new Date(friend.next_due_date).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })}
+              <p className="text-3xl font-semibold text-[#244d3f] mb-2">
+                {(() => {
+                  const [year, month, day] = friend.next_due_date.split("-").map(Number);
+                  return new Date(year, month - 1, day).toLocaleDateString("en-US", {
+                    month: "short", day: "numeric", year: "numeric",
+                  });
+                })()}
               </p>
               <p className="text-sm text-[#4b5563]">Next Due</p>
             </div>
-
           </div>
 
           {/* Relationship Goal Card */}
@@ -122,16 +148,24 @@ export default async function FriendDetailPage({ params }) {
           <div className="bg-white rounded-xl border border-gray-200 p-4">
             <h3 className="text-base font-semibold text-[#101727] mb-4">Quick Check-In</h3>
             <div className="grid grid-cols-3 gap-3">
-
-              <button className="flex flex-col items-center justify-center gap-2 border border-gray-200 rounded-xl py-3 text-sm text-[#101727] hover:bg-gray-50 transition-colors">
+              <button
+                onClick={() => handleCheckIn("Call")}
+                className="flex flex-col items-center justify-center gap-2 border border-gray-200 rounded-xl py-3 text-sm text-[#101727] hover:bg-gray-50 transition-colors"
+              >
                 <LuPhone size={20} />
                 Call
               </button>
-              <button className="flex flex-col items-center justify-center gap-2 border border-gray-200 rounded-xl py-3 text-sm text-[#101727] hover:bg-gray-50 transition-colors">
+              <button
+                onClick={() => handleCheckIn("Text")}
+                className="flex flex-col items-center justify-center gap-2 border border-gray-200 rounded-xl py-3 text-sm text-[#101727] hover:bg-gray-50 transition-colors"
+              >
                 <LuMessageSquare size={20} />
                 Text
               </button>
-              <button className="flex flex-col items-center justify-center    gap-2 border border-gray-200 rounded-xl py-3 text-sm text-[#101727] hover:bg-gray-50 transition-colors">
+              <button
+                onClick={() => handleCheckIn("Video")}
+                className="flex flex-col items-center justify-center gap-2 border border-gray-200 rounded-xl py-3 text-sm text-[#101727] hover:bg-gray-50 transition-colors"
+              >
                 <LuVideo size={20} />
                 Video
               </button>
@@ -139,7 +173,6 @@ export default async function FriendDetailPage({ params }) {
           </div>
 
         </div>
-
       </div>
     </div>
   );
