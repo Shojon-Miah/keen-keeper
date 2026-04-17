@@ -1,5 +1,8 @@
 "use client";
+
+import { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from "recharts";
+import { getTimeline } from "@/utils/storage";
 import timelineData from "@/data/timeline.json";
 
 const COLORS = {
@@ -9,9 +12,20 @@ const COLORS = {
 };
 
 export default function StatsPage() {
-  const callCount = timelineData.filter((e) => e.type === "Call").length;
-  const textCount = timelineData.filter((e) => e.type === "Text").length;
-  const videoCount = timelineData.filter((e) => e.type === "Video").length;
+  const [allEntries, setAllEntries] = useState([]);
+
+useEffect(() => {
+  const loadData = () => {
+    const saved = getTimeline();
+    const jsonData = Array.isArray(timelineData) ? timelineData : timelineData.default;
+    setAllEntries([...saved, ...jsonData]);
+  };
+  loadData();
+}, []);
+
+  const callCount = allEntries.filter((e) => e.type === "Call").length;
+  const textCount = allEntries.filter((e) => e.type === "Text").length;
+  const videoCount = allEntries.filter((e) => e.type === "Video").length;
 
   const chartData = [
     { name: "Text", value: textCount },
@@ -23,14 +37,12 @@ export default function StatsPage() {
     <div className="min-h-screen bg-[#f0f4f3] py-10 px-6">
       <div className="max-w-4xl mx-auto">
 
-        {/* Heading */}
         <h1 className="text-3xl font-bold text-[#101727] mb-6">
           Friendship Analytics
         </h1>
 
-        {/* Chart Card */}
         <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <p className="text-sm text-[#244d3f] mb-6">By Interaction Type</p>
+          <p className="text-sm text-[#4b5563] mb-6">By Interaction Type</p>
 
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
@@ -56,10 +68,9 @@ export default function StatsPage() {
               />
             </PieChart>
           </ResponsiveContainer>
-
         </div>
+
       </div>
     </div>
   );
 }
-

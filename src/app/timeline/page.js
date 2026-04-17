@@ -23,11 +23,14 @@ export default function TimelinePage() {
   const [filter, setFilter] = useState("");
   const [allEntries, setAllEntries] = useState([]);
 
-  useEffect(() => {
+useEffect(() => {
+  const loadData = () => {
     const saved = getTimeline();
-    const combined = [...saved, ...timelineData];
-    setAllEntries(combined);
-  }, []);
+    const jsonData = Array.isArray(timelineData) ? timelineData : timelineData.default;
+    setAllEntries([...saved, ...jsonData]);
+  };
+  loadData();
+}, []);
 
   const filtered = filter
     ? allEntries.filter((e) => e.type === filter)
