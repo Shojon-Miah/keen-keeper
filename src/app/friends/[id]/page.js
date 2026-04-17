@@ -19,16 +19,17 @@ export default function FriendDetailPage({ params }) {
     setTimeout(() => setToast(null), 3000);
   }
 
-  function handleCheckIn(type) {
-    const entry = {
-      id: Date.now(),
-      type,
-      friendName: friend.name,
-      date: new Date().toISOString().split("T")[0],
-    };
-    addTimelineEntry(entry);
-    showToast(`${type} with ${friend.name} logged!`);
-  }
+ const handleCheckIn = (type) => {
+  const now = new Date();
+  const entry = {
+    id: now.getTime(),
+    type,
+    friendName: friend.name,
+    date: now.toISOString().split("T")[0],
+  };
+  addTimelineEntry(entry);
+  showToast(`${type} with ${friend.name} logged!`);
+};
 
   if (!friend) {
     return (
@@ -80,9 +81,18 @@ export default function FriendDetailPage({ params }) {
             <span className={`text-xs px-3 py-1 rounded-full font-medium mb-2 ${statusStyles[friend.status]}`}>
               {statusLabels[friend.status]}
             </span>
-            <span className="bg-[#e8f5e9] text-[#244d3f] text-xs px-3 py-1 rounded-full font-medium uppercase mb-3">
-              {friend.tags[0]}
-            </span>
+
+            <div className="flex flex-wrap justify-center gap-1.5 mb-3">
+              {friend.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="bg-[#e8f5e9] text-[#244d3f] text-xs px-3 py-1 rounded-full font-medium uppercase"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
             <p className="text-sm text-[#4b5563] italic mb-1">{`"${friend.bio}"`}</p>
             <p className="text-sm text-[#4b5563]">{friend.email}</p>
           </div>

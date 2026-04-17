@@ -42,7 +42,7 @@ useEffect(() => {
         </h1>
 
         <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <p className="text-sm text-[#4b5563] mb-6">By Interaction Type</p>
+          <p className="text-sm text-[#244d3f] mb-6">By Interaction Type</p>
 
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
