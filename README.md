@@ -2,7 +2,7 @@ README.md
 
 # Keen-Keeper
 
-**KeenKeeper is a personal relationship management app that helps you stay connected with the people who matter most in your life.
+**KeenKeeper is a personal relationship management app that helps you stay connected with the people who matter most in your life.**
 
 ## Technologies Used
 
